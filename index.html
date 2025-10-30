@@ -39,6 +39,73 @@
       navigator.serviceWorker.register("service-worker.js");
     }
   </script>
+
+<!-- INSTALLA APP UNIVERSALE (Android + iOS) -->
+<style>
+#installBanner {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1e88e5;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  font-size: 16px;
+  display: none;
+  z-index: 9999;
+  cursor: pointer;
+  text-align: center;
+}
+#installBanner.ios {
+  background: #333;
+  font-size: 15px;
+  cursor: default;
+}
+</style>
+
+<div id="installBanner"></div>
+
+<script>
+const banner = document.getElementById('installBanner');
+let deferredPrompt;
+
+// --- Android / Desktop install prompt ---
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  banner.textContent = "📱 Installa l'app";
+  banner.style.display = 'block';
+
+  banner.onclick = async () => {
+    banner.style.display = 'none';
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      console.log('App installata!');
+    }
+    deferredPrompt = null;
+  };
+});
+
+// --- iOS detection ---
+function isIOS() {
+  return /iphone|ipad|ipod/i.test(navigator.userAgent);
+}
+
+function isInStandaloneMode() {
+  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+}
+
+if (isIOS() && !isInStandaloneMode()) {
+  banner.textContent = "🍎 Tocca 'Condividi' 🔼 e poi 'Aggiungi alla schermata Home'";
+  banner.classList.add('ios');
+  banner.style.display = 'block';
+}
+</script>
+<!-- FINE BLOCCO INSTALLAZIONE -->
+
   
 </body>
 </html>
