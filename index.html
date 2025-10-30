@@ -31,5 +31,12 @@
   <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSckN06zMz83MpqeBouuRcYa5L3WpFcQxUuLF-rbyfAFpUy-ng/viewform?embedded=true">
     Caricamento…
   </iframe>
+
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js");
+    }
+  </script>
+  
 </body>
 </html>
