@@ -1,6 +1,6 @@
 {
-  "name": "Modulo Raccolta",
-  "short_name": "Modulo",
+  "name": "Questionario post seduta",
+  "short_name": "Questionario",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#ffffff",
